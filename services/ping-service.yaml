@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dev-ping-service-configmap
+  namespace: dev
+data:
+  SERVER_PORT: "8080"
+  SERVICE_CONFIG_PONG_URL: "http://pong-service-svc:8080/api/v1/pong"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dev-ping-deployment
+  namespace: dev
+  labels:
+    app: ping-service
+    environment: dev
+  annotations:
+    description: "Ping service that interacts with the Pong service"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ping-service
+  template:
+    metadata:
+      labels:
+        app: ping-service
+    spec:
+      containers:
+      - name: ping-container
+        image: sergiolv/ping-service:1.1.0
+        ports:
+        - containerPort: 8080
+        imagePullPolicy: Always 
+        envFrom:
+        - configMapRef:
+            name: dev-ping-service-configmap
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ping-service-svc
+  namespace: dev
+  labels:
+    app: ping-service
+spec:
+  type: NodePort
+  ports:
+    - name: http
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: ping-service
+
