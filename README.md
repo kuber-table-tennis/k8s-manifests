@@ -18,3 +18,18 @@ The bellow command is to see the logs of a pod.
 ```
 kubectl logs <POD-NAME> -n <NAMESPACE>
 ```
+
+# Utils
+*List env variables inside a container*
+```
+printenv
+```
+*Run a volatile pod that can test the connections with other pods*
+```
+kubectl run -n dev --rm -it debug --image=busybox -- sh
+```
+and the below command makes a request to a specific service.
+```
+wget -O- http://pong-service-svc.dev.svc.cluster.local:8080/api/v1/pong
+```
+
