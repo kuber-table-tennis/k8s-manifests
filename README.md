@@ -18,6 +18,10 @@ The bellow command is to see the logs of a pod.
 ```
 kubectl logs <POD-NAME> -n <NAMESPACE>
 ```
+The bellow command is to see the ip of the minikube cluster.
+```
+minikube ip
+```
 
 # Utils
 *List env variables inside a container*

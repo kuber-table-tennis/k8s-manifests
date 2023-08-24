@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: dev-pong-service-configmap
+  name: dev-pong-configmap
   namespace: dev
 data:
   SERVER_PORT: "8080"
@@ -35,7 +35,7 @@ spec:
         imagePullPolicy: Always  
         envFrom:
         - configMapRef:
-            name: dev-ping-service-configmap
+            name: dev-pong-configmap
 ---
 apiVersion: v1
 kind: Service
